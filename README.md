@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>854 Días y Una Eternidad | Mi Mundo Entero</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@200;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red-passion: #ff4d6d;
+            --pink-soft: #ff85a1;
+            --pink-pale: #fbb1bd;
+            --white: #ffffff;
+            --bg-dark: #120d16;
+            --gold: #ffb703;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; background: #fff5f7; color: #333; overflow-x: hidden; }
+
+        /* --- FONDO DE ESTRELLAS ANIMADO --- */
+        #canvas-stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: linear-gradient(to bottom, #fff5f7, #ffe5ec); }
+
+        /* --- 1. BIENVENIDA (HERO) --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: clamp(3rem, 15vw, 8rem);
+            color: var(--red-passion);
+            opacity: 0.1;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .hero-content { z-index: 2; }
+        .hero-content h2 { font-family: 'Dancing Script', cursive; font-size: 5rem; color: var(--red-passion); text-shadow: 3px 3px 0 white; }
+
+        /* --- MEGA CONTADOR --- */
+        .counter-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 40px;
+            box-shadow: 0 20px 40px rgba(255, 77, 109, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid white;
+        }
+
+        .counter-unit span { display: block; font-size: 4rem; font-weight: 800; color: var(--red-passion); }
+        .counter-unit p { font-size: 0.8rem; letter-spacing: 3px; color: #888; text-transform: uppercase; }
+
+        /* --- 2. SECCIÓN DE ESTADÍSTICAS REALES --- */
+        .stats-mega { padding: 100px 5%; display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; }
+        .stat-box {
+            background: white; padding: 40px; border-radius: 30px; text-align: center;
+            width: 300px; box-shadow: 0 15px 30px rgba(0,0,0,0.03); border-top: 5px solid var(--red-passion);
+        }
+        .stat-box i { font-size: 2rem; display: block; margin-bottom: 10px; }
+        .stat-box h3 { font-size: 2.5rem; margin-bottom: 10px; font-family: 'Montserrat'; }
+
+        /* --- 3. EL CONTRATO (DENJI & REZE STYLE) --- */
+        .contract {
+            padding: 100px 10%;
+            background: var(--white);
+            margin: 50px auto;
+            max-width: 1000px;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 20px 20px 0px var(--pink-pale);
+        }
+        .contract h3 { font-family: 'Playfair Display'; font-size: 3rem; text-align: center; margin-bottom: 40px; color: var(--red-passion); }
+        .contract p { font-size: 1.3rem; line-height: 2.5; margin-bottom: 25px; text-align: justify; color: #555; }
+
+        /* --- 4. CÁPSULAS DEL TIEMPO (INTERACTIVO) --- */
+        .capsules { padding: 100px 5%; text-align: center; background: #fff; }
+        .capsule-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 50px; }
+        .envelope {
+            background: var(--pink-soft); color: white; padding: 40px; border-radius: 20px;
+            cursor: pointer; transition: 0.4s; position: relative; overflow: hidden;
+        }
+        .envelope:hover { transform: scale(1.05) translateY(-10px); background: var(--red-passion); }
+        .envelope h4 { font-family: 'Dancing Script'; font-size: 2rem; }
+        .envelope .message { display: none; margin-top: 20px; font-size: 1rem; line-height: 1.5; }
+
+        /* --- 5. GALERÍA INMERSIVA --- */
+        .immersive-gallery { display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(2, 300px); gap: 10px; padding: 10px; }
+        .img-item { background: #eee; overflow: hidden; position: relative; }
+        .img-item img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s; }
+        .img-item:hover img { transform: scale(1.2); }
+        .item-1 { grid-column: 1 / 4; }
+        .item-2 { grid-column: 4 / 7; }
+        .item-3 { grid-column: 1 / 3; }
+        .item-4 { grid-column: 3 / 5; }
+        .item-5 { grid-column: 5 / 7; }
+
+        /* --- 6. CHECKLIST DE VIDA --- */
+        .checklist { padding: 100px 15%; background: #fff5f7; }
+        .check-card { background: white; padding: 50px; border-radius: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
+        .check-row { display: flex; align-items: center; gap: 20px; margin-bottom: 25px; font-size: 1.2rem; }
+        .check-row.done { color: var(--red-passion); font-weight: 600; text-decoration: line-through opacity 0.5; }
+        .dot { width: 30px; height: 30px; border: 3px solid var(--red-passion); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .done .dot { background: var(--red-passion); color: white; }
+
+        /* --- 7. FINAL DEL CAMINO --- */
+        .eternal-footer {
+            padding: 200px 20px;
+            background: var(--red-passion);
+            color: white;
+            text-align: center;
+        }
+        .big-heart { font-size: 150px; animation: heartBeat 1s infinite; display: inline-block; }
+        @keyframes heartBeat { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+        @media (max-width: 768px) {
+            .counter-grid { grid-template-columns: repeat(2, 1fr); }
+            .immersive-gallery { grid-template-columns: 1fr; grid-template-rows: auto; }
+            .item-1, .item-2, .item-3, .item-4, .item-5 { grid-column: 1 / 2; height: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas-stars"></canvas>
+
+    <section class="hero">
+        <h1>FOREVER</h1>
+        <div class="hero-content">
+            <h2>Mi Mundo Entero</h2>
+            <div class="counter-grid">
+                <div class="counter-unit"><span id="days">0</span><p>Días</p></div>
+                <div class="counter-unit"><span id="hours">0</span><p>Horas</p></div>
+                <div class="counter-unit"><span id="mins">0</span><p>Minutos</p></div>
+                <div class="counter-unit"><span id="secs">0</span><p>Segundos</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-mega">
+        <div class="stat-box"><i>❤️</i><h3 id="stat-heart">0</h3><p>Latidos por ti</p></div>
+        <div class="stat-box"><i>💭</i><h3 id="stat-thought">0</h3><p>Pensamientos felices</p></div>
+        <div class="stat-box"><i>✨</i><h3>854</h3><p>Días de luz</p></div>
+        <div class="stat-box"><i>🌙</i><h3 id="stat-dream">0</h3><p>Horas de sueños juntos</p></div>
+    </section>
+
+    <section class="contract">
+        <h3>Nuestro Contrato</h3>
+        <p>Al igual que en las historias de anime que tanto nos gustan, lo nuestro no fue casualidad. Fue una colisión de mundos. Han pasado exactamente 18 días desde que empezamos nuestra relacion amorosa el 28 de enero de 2026, pero mi alma te reconoce desde mucho antes.</p>
+        <p>Este contrato como el de denji que no importa qué demonios enfrentemos, siempre seremos el refugio del otro. Prometo ser tu Denji, dispuesto a darlo todo por tu felicidad, y agradezco que seas mi Reze, la chispa que detonó el amor más puro en mi corazoncito.</p>
+        <p>No hay letras pequeñas: te amo con todo lo que soy, por todo lo que eres, y por todo lo que seremos.</p>
+    </section>
+
+    <section class="capsules">
+        <h3 style="font-family: 'Playfair Display'; font-size: 2.5rem; margin-bottom: 20px;">Cartas para tus momentos</h3>
+        <p>Haz clic en un sobre cuando te sientas así:</p>
+        <div class="capsule-grid">
+            <div class="envelope" onclick="toggleMsg(this)">
+                <h4>"Si estás triste..."</h4>
+                <div class="message">Recuerda que eres la persona que más amo y que yo siempre estaré aquí para sostener tu mano. Eres la princesa de mis sueños.</div>
+            </div>
+            <div class="envelope" onclick="toggleMsg(this)">
+                <h4>"Si te sientes sola..."</h4>
+                <div class="message">Cierra los ojos. Cada latido de mi corazón es un paso que doy hacia ti. Nunca estás sola, estoy en tu mente.</div>
+            </div>
+            <div class="envelope" onclick="toggleMsg(this)">
+                <h4>"Si quieres sonreír..."</h4>
+                <div class="message">Piensa en nuestra primera risa juntos. Ese sonido es mi canción favorita en todo el universo.</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="immersive-gallery">
+        <div class="img-item item-1"><img src=""></div>
+        <div class="img-item item-2"><img src=""></div>
+        <div class="img-item item-3"><img src=""></div>
+        <div class="img-item item-4"><img src=""></div>
+        <div class="img-item item-5"><img src=""></div>
+    </section>
+
+    <section class="checklist">
+        <div class="check-card">
+            <h3 style="font-family: 'Playfair Display'; font-size: 2.5rem; margin-bottom: 40px; text-align: center;">Nuestra Lista de Aventuras</h3>
+            <div class="check-row done"><div class="dot">✓</div> Encontrarnos en esta vida.</div>
+            <div class="check-row done"><div class="dot">✓</div> Superar los primeros 15 días.</div>
+            <div class="check-row"><div class="dot"></div> Conocer atus padres .</div>
+            <div class="check-row"><div class="dot"></div> Que te dejen tener novio JAJAJ.</div>
+            <div class="check-row"><div class="dot"></div> Ver 100 animes completos tomados de la mano.</div>
+            <div class="check-row"><div class="dot"></div> Ir al cine juntos :).</div>
+        </div>
+    </section>
+
+    <section class="eternal-footer">
+        <div class="big-heart">❤</div>
+        <h2 style="font-family: 'Dancing Script'; font-size: 5rem; margin-top: 20px;">Hasta el fin del tiempo</h2>
+        <p style="font-size: 1.5rem; opacity: 0.8; margin-top: 20px;">Eres mi principio y mi fin.</p>
+    </section>
+
+    <footer>
+        PROPIEDAD DE UN AMOR INFINITO • 2026<br>
+        <small>Gracias por existir.</small>
+    </footer>
+
+    <script>
+        // --- FECHA DE CAPTURA ORIGINAL: 28 de enero de 2026, 12:59 p.m. ---
+        const start = new Date(2026, 0, 28, 12, 59);
+
+        function update() {
+            const now = new Date();
+            const diff = now - start;
+
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((diff / 1000 / 60) % 60);
+            const s = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('days').innerText = d;
+            document.getElementById('hours').innerText = h;
+            document.getElementById('mins').innerText = m;
+            document.getElementById('secs').innerText = s;
+
+            // Stats divertidas
+            document.getElementById('stat-heart').innerText = (diff / 850).toFixed(0);
+            document.getElementById('stat-thought').innerText = (diff / 60000).toFixed(0);
+            document.getElementById('stat-dream').innerText = (d * 8);
+        }
+
+        function toggleMsg(el) {
+            const msg = el.querySelector('.message');
+            msg.style.display = (msg.style.display === 'block') ? 'none' : 'block';
+        }
+
+        setInterval(update, 1000);
+        update();
+
+        // Estrellas en el canvas
+        const canvas = document.getElementById('canvas-stars');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let stars = [];
+
+        for(let i=0; i<100; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2,
+                v: Math.random() * 0.5
+            });
+        }
+
+        function drawStars() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            ctx.fillStyle = "#ff85a1";
+            stars.forEach(s => {
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI*2);
+                ctx.fill();
+                s.y -= s.v;
+                if(s.y < 0) s.y = canvas.height;
+            });
+            requestAnimationFrame(drawStars);
+        }
+        drawStars();
+    </script>
+</body>
+</html>
